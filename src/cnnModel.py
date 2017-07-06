@@ -58,13 +58,13 @@ def cnnModel(xTrain, xTest, yTrain, yTest, numIterations, newModel=True, checkPo
 
     ##conv layer 2 and pool layer 2
     W_conv2 = weight_variable([3, 3, 32, 64], name='W_conv2')
-    b_conv2 =bias_variable([64], name='b_conv2')
+    b_conv2 = bias_variable([64], name='b_conv2')
     h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
     h_pool2 = max_pool_2x2(h_conv2)
 
     ##conv layer 3 and pool layer 3
     W_conv3 = weight_variable([3, 3, 64, 128], name='W_conv3')
-    b_conv3 =bias_variable([128], name='b_conv3')
+    b_conv3 = bias_variable([128], name='b_conv3')
     h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
     h_pool3 = max_pool_2x2(h_conv3)
 
@@ -84,6 +84,7 @@ def cnnModel(xTrain, xTest, yTrain, yTest, numIterations, newModel=True, checkPo
     y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
     ##training model
+    ##consider log loss: tf.losses.log_loss
     cross_entropy = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
     train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
@@ -123,8 +124,8 @@ def cnnModel(xTrain, xTest, yTrain, yTest, numIterations, newModel=True, checkPo
 
 def main():
     ##load data from files
-    xPath = os.path.expanduser('~/Desktop/Projects/Tensor-WorkShop/data/X-Tensor.json')
-    yPath = os.path.expanduser('~/Desktop/Projects/Tensor-WorkShop/data/Y-Tensor.json')
+    xPath = os.path.expanduser('~/Desktop/Projects/Tensor-WorkShop/data/X-Train-Tensor.json')
+    yPath = os.path.expanduser('~/Desktop/Projects/Tensor-WorkShop/data/Y-Train-Tensor.json')
     x = processRawData(xPath)
     y = processRawData(yPath)
     print('load data successfully')
@@ -134,7 +135,7 @@ def main():
     print('split data successfully')
 
     print('Begin training...')
-    cnnModel(trainX, testX, trainY, testY, numIterations=100, newModel=False, checkPointPath='./parameters/model-v1.0.ckpt')
+    cnnModel(trainX, testX, trainY, testY, numIterations=200, newModel=True, checkPointPath='./parameters/model-v1.0.ckpt')
 
 if __name__ == '__main__':
     main()

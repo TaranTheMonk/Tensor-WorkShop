@@ -48,13 +48,13 @@ def cnnModel(xTest, checkPointPath):
 
     ##conv layer 2 and pool layer 2
     W_conv2 = weight_variable([3, 3, 32, 64], name='W_conv2')
-    b_conv2 =bias_variable([64], name='b_conv2')
+    b_conv2 = bias_variable([64], name='b_conv2')
     h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
     h_pool2 = max_pool_2x2(h_conv2)
 
     ##conv layer 3 and pool layer 3
     W_conv3 = weight_variable([3, 3, 64, 128], name='W_conv3')
-    b_conv3 =bias_variable([128], name='b_conv3')
+    b_conv3 = bias_variable([128], name='b_conv3')
     h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
     h_pool3 = max_pool_2x2(h_conv3)
 
